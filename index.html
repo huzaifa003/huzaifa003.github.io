@@ -92,7 +92,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      padding: 0 clamp(1rem, 2vw, 2rem);
       height: 60px;
       background: var(--glass);
       backdrop-filter: blur(28px) saturate(180%);
@@ -220,8 +220,8 @@
 
     /* ─── Section base ───────────────────────────────────────────── */
     section {
-      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
-      max-width: 1100px;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 2vw, 2rem);
+      max-width: 1200px;
       margin: 0 auto;
     }
 
@@ -491,9 +491,9 @@
 
     /* ─── DIVIDER ─────────────────────────────────────────────────── */
     .divider {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      padding: 0 clamp(1rem, 2vw, 2rem);
     }
 
     .divider hr {
@@ -927,7 +927,7 @@
     /* ─── FOOTER ─────────────────────────────────────────────────── */
     footer {
       text-align: center;
-      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      padding: 2rem clamp(1rem, 2vw, 2rem);
       border-top: 1px solid var(--border);
       font-size: .72rem;
       color: var(--text-3);
@@ -957,6 +957,543 @@
       .nav-links { display: none; }
       .pub-grid { grid-template-columns: 1fr; }
       .edu-card { flex-direction: column; }
+      .project-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── PROJECTS ───────────────────────────────────────────────── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1024px) {
+      .project-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .project-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Upwork-style portfolio card */
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 0;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px) rotateX(0deg);
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-hover);
+    }
+
+    /* Thumbnail — 4:3 ratio matching 1000×750 */
+    .project-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: #0b0e1a;
+    }
+
+    .project-thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform .55s cubic-bezier(.4,0,.2,1);
+    }
+
+    .project-card:hover .project-thumb img {
+      transform: scale(1.04);
+    }
+
+    /* hover overlay with "View Project" cue */
+    .project-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .35s ease;
+      z-index: 3;
+    }
+
+    .project-card:hover .project-thumb-overlay {
+      background: rgba(0,0,0,0.42);
+    }
+
+    .project-thumb-overlay-inner {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem 1.2rem;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 99px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .3s ease .05s, transform .3s ease .05s;
+    }
+
+    .project-card:hover .project-thumb-overlay-inner {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* badges on thumb */
+    .project-thumb-badges {
+      position: absolute;
+      bottom: .75rem;
+      left: .75rem;
+      right: .75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .project-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      padding: .2rem .55rem;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 99px;
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .project-badge .sdot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #5af07a;
+      box-shadow: 0 0 6px rgba(90,240,122,0.6);
+      animation: blink 2.5s ease-in-out infinite;
+    }
+
+    /* Card body — below image */
+    .project-body {
+      padding: 1.2rem 1.35rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: .65rem;
+      flex: 1;
+    }
+
+    .project-eyebrow {
+      font-size: .62rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
+    .project-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.25;
+      color: var(--text);
+    }
+
+    .project-excerpt {
+      font-size: .8rem;
+      color: var(--text-2);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .project-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: .7rem;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    .project-stack-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .3rem;
+    }
+
+    .stack-chip {
+      padding: .14rem .44rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: .63rem;
+      font-weight: 500;
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+      transition: all var(--transition);
+    }
+
+    .stack-chip:hover { border-color: var(--border-hover); color: var(--text); }
+
+    .project-view-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--text-3);
+      transition: color var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .project-view-link svg { transition: transform var(--transition); }
+    .project-card:hover .project-view-link { color: var(--text); }
+    .project-card:hover .project-view-link svg { transform: translate(2px,-2px); }
+
+    /* ─── PROJECT MODAL ──────────────────────────────────────────── */
+    .proj-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,0);
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      pointer-events: none;
+      transition: background .35s ease, backdrop-filter .35s ease;
+    }
+
+    .proj-modal-overlay.open {
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      pointer-events: all;
+    }
+
+    .proj-modal {
+      position: relative;
+      width: 100%;
+      max-width: 820px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-top-color: rgba(255,255,255,0.14);
+      border-radius: 20px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 1px 0 rgba(255,255,255,0.08) inset;
+      opacity: 0;
+      transform: translateY(28px) scale(0.97);
+      transition: opacity .38s cubic-bezier(.4,0,.2,1), transform .38s cubic-bezier(.4,0,.2,1);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-hover) transparent;
+    }
+
+    .proj-modal-overlay.open .proj-modal {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Modal image — 1000×750 ratio = 4:3 */
+    .proj-modal-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      border-radius: 20px 20px 0 0;
+      position: relative;
+      background: #0b0e1a;
+    }
+
+    .proj-modal-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* gradient fade at bottom of image */
+    .proj-modal-img::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to top, var(--bg-2), transparent);
+      pointer-events: none;
+    }
+
+    /* close button */
+    .proj-modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      z-index: 10;
+      width: 36px; height: 36px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+
+    .proj-modal-close:hover {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      transform: scale(1.08);
+    }
+
+    .proj-modal-content {
+      padding: 2rem 2.25rem 2.5rem;
+    }
+
+    .proj-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .proj-modal-eyebrow {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: .35rem;
+    }
+
+    .proj-modal-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -.035em;
+      line-height: 1.15;
+    }
+
+    .proj-modal-meta {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-top: .6rem;
+      flex-wrap: wrap;
+    }
+
+    .proj-modal-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .73rem;
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .proj-modal-live-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .55rem 1.2rem;
+      background: var(--text);
+      color: var(--bg);
+      border-radius: var(--radius-sm);
+      font-size: .8rem;
+      font-weight: 700;
+      transition: all var(--transition);
+      flex-shrink: 0;
+      border: 1px solid var(--text);
+    }
+
+    .proj-modal-live-btn:hover {
+      opacity: .88;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+    }
+
+    .proj-modal-client {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: 1rem 1.1rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+    }
+
+    .proj-modal-client-icon {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .proj-modal-client-name {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .15rem;
+    }
+
+    .proj-modal-client-sub {
+      font-size: .75rem;
+      color: var(--text-3);
+      line-height: 1.5;
+    }
+
+    .proj-modal-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .proj-modal-section-title {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: .75rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .proj-modal-section-title svg {
+      flex-shrink: 0;
+    }
+
+    .proj-modal-pnl-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .proj-modal-pnl {
+      padding: 1rem 1.1rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .proj-modal-pnl-head {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: .6rem;
+    }
+
+    .proj-modal-pnl p {
+      font-size: .82rem;
+      color: var(--text-2);
+      line-height: 1.75;
+    }
+
+    .proj-modal-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .65rem;
+    }
+
+    .proj-modal-highlight {
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      padding: .8rem 1rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .proj-modal-highlight-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .88rem;
+    }
+
+    .proj-modal-highlight-text {
+      font-size: .78rem;
+      color: var(--text-2);
+      line-height: 1.55;
+    }
+
+    .proj-modal-highlight-text strong {
+      display: block;
+      font-size: .73rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .1rem;
+    }
+
+    .proj-modal-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+    }
+
+    .proj-modal-stack .stack-chip {
+      font-size: .7rem;
+      padding: .22rem .6rem;
+    }
+
+    /* Prevent body scroll when modal open */
+    body.modal-open { overflow: hidden; }
+
+    @media (max-width: 768px) {
+      .proj-modal { border-radius: 16px; max-height: 95vh; }
+      .proj-modal-img { border-radius: 16px 16px 0 0; }
+      .proj-modal-content { padding: 1.25rem 1.25rem 2rem; }
+      .proj-modal-pnl-grid { grid-template-columns: 1fr; }
+      .proj-modal-highlights { grid-template-columns: 1fr; }
+      .proj-modal-header { flex-direction: column; gap: .75rem; }
+      .proj-modal-overlay { padding: .75rem; }
     }
 
     /* ─── Utility ─────────────────────────────────────────────────── */
@@ -979,6 +1516,7 @@
     <div class="nav-logo">HI<span>.</span></div>
     <ul class="nav-links">
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#publications">Research</a></li>
       <li><a href="#education">Education</a></li>
       <li><a href="#certifications">Certs</a></li>
@@ -1024,15 +1562,15 @@
         </h1>
 
         <p class="hero-headline">
-          Project Manager &amp; Business Analyst at MCB Bank · Co-Founder of Lordevs ·
-          Medical AI Researcher · Generative AI &amp; Deep Learning Engineer
+          Senior Full Stack Developer · Co-Founder of Lordevs ·
+          Medical AI Researcher · Generative AI & Deep Learning Engineer
         </p>
 
         <div class="hero-tags">
-          <span class="tag">Core Banking · FCUBS</span>
-          <span class="tag">LLM Fine-tuning</span>
+          <span class="tag">Full Stack Development</span>
+          <span class="tag">React · Django</span>
+          <span class="tag">Python · Node.js</span>
           <span class="tag">Medical AI</span>
-          <span class="tag">Agentic AI</span>
           <span class="tag">RAG / KAG</span>
           <span class="tag">IEEE · Nature</span>
         </div>
@@ -1080,62 +1618,60 @@
 
       <div class="exp-grid">
 
-        <!-- MCB -->
+        <!-- DOTCODE -->
         <div class="card exp-card reveal">
-          <div class="exp-icon">🏦</div>
+          <div class="exp-icon">🚀</div>
           <div class="exp-body">
             <div class="exp-header">
               <div>
-                <div class="exp-title">Project Manager · Business Analyst</div>
-                <div class="exp-company">MCB Bank Limited &nbsp;·&nbsp; International Banking &nbsp;·&nbsp; On-site, Pakistan</div>
+                <div class="exp-title">Team Lead · Full Stack Developer</div>
+                <div class="exp-company">DOTCODE &nbsp;·&nbsp; AI Startup &nbsp;·&nbsp; Remote, Pakistan</div>
               </div>
-              <span class="exp-period">Oct 2024 – Present</span>
+              <span class="exp-period">Apr 2024 – Present</span>
             </div>
             <ul class="exp-bullets">
-              <li>Led FCUBS 14.7 zero-defect upgrade for UAE &amp; Bahrain achieving &lt;18h downtime for Dubai and Sharjah branches.</li>
-              <li>Directed complex Regulatory KYC ↔ FCUBS integration, automating compliance across the core banking ecosystem.</li>
-              <li>Delivered SMS/Email integration, Treasury Module (Bahrain), and SWIFT messaging end-to-end.</li>
-              <li>Leading AI strategy BRD for embedding AI into digital channels (OBDX) with governance architecture.</li>
-              <li>Architected and deployed 200+ OBIEE reports automating KYC, General Ledger, and regulatory data flows.</li>
-              <li>Ensured 100% compliance with CBUAE &amp; CBB directives including IBAN transitions and FCCM (AML/CFT).</li>
+              <li>Led full stack delivery for scalable AI products, shipping React/Django solutions used by enterprise clients.</li>
+              <li>Built backend APIs, orchestration pipelines, and front-end dashboards for knowledge-driven applications.</li>
+              <li>Implemented production-ready CI/CD, containerized services, and automated deployments for fast iteration.</li>
+              <li>Collaborated with designers and data teams to turn research prototypes into user-facing products.</li>
+              <li>Mentored developers on code quality, architecture, and full stack best practices.</li>
             </ul>
             <div class="exp-skills">
-              <span class="skill-chip">FCUBS 14.7</span>
-              <span class="skill-chip">OBDX</span>
-              <span class="skill-chip">Oracle OBIEE</span>
-              <span class="skill-chip">SWIFT</span>
-              <span class="skill-chip">KYC / AML</span>
-              <span class="skill-chip">BRD Writing</span>
-              <span class="skill-chip">Stakeholder Management</span>
+              <span class="skill-chip">React</span>
+              <span class="skill-chip">Django</span>
+              <span class="skill-chip">Node.js</span>
+              <span class="skill-chip">PostgreSQL</span>
+              <span class="skill-chip">CI/CD</span>
+              <span class="skill-chip">Team Leadership</span>
             </div>
           </div>
         </div>
 
         <!-- Lordevs -->
         <div class="card exp-card reveal">
-          <div class="exp-icon">🚀</div>
+          <div class="exp-icon">💻</div>
           <div class="exp-body">
             <div class="exp-header">
               <div>
-                <div class="exp-title">Co-Founder</div>
-                <div class="exp-company">Dotcode (Lordevs) &nbsp;·&nbsp; AI Startup &nbsp;·&nbsp; Remote, Pakistan</div>
+                <div class="exp-title">Senior Full Stack Developer</div>
+                <div class="exp-company">Lordevs &nbsp;·&nbsp; AI Startup &nbsp;·&nbsp; Remote, Pakistan</div>
               </div>
-              <span class="exp-period">May 2023 – Present</span>
+              <span class="exp-period">Sep 2020 – Mar 2024</span>
             </div>
             <ul class="exp-bullets">
-              <li>Co-founded Lordevs to build and deploy scalable AI solutions for enterprise clients.</li>
-              <li>Developed Agentic AI workflows and multi-modal RAG / KAG pipelines for documentation solutions.</li>
-              <li>Built an end-to-end fine-tuning pipeline for open-source LLMs, optimized for emerging model families.</li>
-              <li>Bridged business analyst and technical architect roles — from requirements gathering to production deployment.</li>
-              <li>Led cross-functional teams coordinating clients, developers, and infrastructure delivery.</li>
+              <li>Developed full stack AI workflows, integrating backend services with interactive front-end applications.</li>
+              <li>Built multi-modal RAG/KAG pipelines and fine-tuned open-source LLMs for document automation solutions.</li>
+              <li>Designed scalable APIs and database schemas to support real-time data ingestion and retrieval.</li>
+              <li>Worked across requirements, architecture, and delivery to ship products end to end.</li>
+              <li>Improved codebases through refactoring, testing, and automation for faster deployments.</li>
             </ul>
             <div class="exp-skills">
-              <span class="skill-chip">Agentic AI</span>
-              <span class="skill-chip">LLM Fine-tuning</span>
+              <span class="skill-chip">Django</span>
+              <span class="skill-chip">React</span>
+              <span class="skill-chip">LLM Pipelines</span>
               <span class="skill-chip">RAG / KAG</span>
-              <span class="skill-chip">Multimodal AI</span>
-              <span class="skill-chip">Python</span>
-              <span class="skill-chip">Backend Infra</span>
+              <span class="skill-chip">APIs</span>
+              <span class="skill-chip">Product Delivery</span>
             </div>
           </div>
         </div>
@@ -1146,31 +1682,548 @@
           <div class="exp-body">
             <div class="exp-header">
               <div>
-                <div class="exp-title">Associate Software Engineer</div>
+                <div class="exp-title">Full Stack Developer</div>
                 <div class="exp-company">Yottacom Technologies &nbsp;·&nbsp; Full-time &nbsp;·&nbsp; On-site, Pakistan</div>
               </div>
-              <span class="exp-period">Jul – Oct 2024</span>
+              <span class="exp-period">2019 – 2020</span>
             </div>
             <ul class="exp-bullets">
-              <li>Deployed and scaled ML inference pipelines using Google Kubernetes Engine (GKE) and Ray clusters.</li>
-              <li>Optimized Stable Diffusion and Flux training pipelines for generative image synthesis.</li>
-              <li>Engineered realistic face-swapping pipeline in Django and deployed on Cerebrium's serverless platform.</li>
-              <li>Researched motion models (Mimic-Motion, Open-Sora) and integrated them into video generation pipelines.</li>
-              <li>Built structured-output RAG pipeline using generative AI APIs.</li>
+              <li>Built and maintained full stack applications, combining back-end services with user-facing interfaces.</li>
+              <li>Deployed ML inference systems and supported production workflows on Google Kubernetes Engine.</li>
+              <li>Implemented Django-based solutions and integrated serverless deployment pipelines on Cerebrium.</li>
+              <li>Developed data-driven features for research and generative AI workloads.</li>
+              <li>Collaborated with cross-functional teams to deliver stable, scalable applications.</li>
             </ul>
             <div class="exp-skills">
-              <span class="skill-chip">GKE</span>
-              <span class="skill-chip">Ray</span>
-              <span class="skill-chip">Stable Diffusion</span>
               <span class="skill-chip">Django</span>
+              <span class="skill-chip">GKE</span>
               <span class="skill-chip">Cerebrium</span>
-              <span class="skill-chip">Generative AI</span>
+              <span class="skill-chip">Python</span>
+              <span class="skill-chip">Full Stack Apps</span>
+              <span class="skill-chip">Deployment</span>
             </div>
           </div>
         </div>
 
       </div>
     </section>
+
+    <div class="divider"><hr /></div>
+
+    <!-- ── PROJECTS ────────────────────────────────────────────────── -->
+    <section id="projects">
+      <p class="section-label reveal">Portfolio</p>
+      <h2 class="section-title reveal">Featured Projects</h2>
+
+      <div class="project-grid">
+
+        <!-- ── Compl AI card ── -->
+        <div class="card project-card reveal" data-modal="compl-ai">
+          <div class="project-thumb">
+            <img
+              src="assets/compl-ai thumbnail.png"
+              alt="Compl AI — Legal AI SaaS platform screenshot"
+              loading="lazy"
+            />
+            <div class="project-thumb-overlay">
+              <div class="project-thumb-overlay-inner">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                View Project
+              </div>
+            </div>
+            <div class="project-thumb-badges">
+              <span class="project-badge">Legal AI · SaaS</span>
+              <span class="project-badge"><span class="sdot"></span>Live</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-eyebrow">CartwrightKing Ltd · United Kingdom</div>
+            <div class="project-title">Compl AI</div>
+            <p class="project-excerpt">
+              Agentic RAG platform delivering SRA &amp; LAA compliant legal guidance with source citations — zero hallucinations.
+            </p>
+            <div class="project-card-footer">
+              <div class="project-stack-preview">
+                <span class="stack-chip">Agentic RAG</span>
+                <span class="stack-chip">Django</span>
+                <span class="stack-chip">React</span>
+                <span class="stack-chip">LLM</span>
+              </div>
+              <span class="project-view-link">
+                Details
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card project-card reveal" data-modal="ck-erp">
+          <div class="project-thumb">
+            <img
+              src="assets/ck-erp.png"
+              alt="CartwrightKing Intranet ERP — screenshot"
+              loading="lazy"
+            />
+            <div class="project-thumb-overlay">
+              <div class="project-thumb-overlay-inner">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                View Project
+              </div>
+            </div>
+            <div class="project-thumb-badges">
+              <span class="project-badge">Intranet · ERP</span>
+              <span class="project-badge"><span class="sdot"></span>Live</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-eyebrow">CartwrightKing Ltd · United Kingdom</div>
+            <div class="project-title">Intranet ERP Software</div>
+            <p class="project-excerpt">
+              Centralized intranet for 100+ employees across UK branches — staff directory, onboarding workflows, knowledge base, and branch-level access controls.
+            </p>
+            <div class="project-card-footer">
+              <div class="project-stack-preview">
+                <span class="stack-chip">Django</span>
+                <span class="stack-chip">Next.js</span>
+                <span class="stack-chip">PostgreSQL</span>
+                <span class="stack-chip">Vercel</span>
+              </div>
+              <span class="project-view-link">
+                Details
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── PetBazzar card ── -->
+        <div class="card project-card reveal" data-modal="petbazzar">
+          <div class="project-thumb">
+            <img
+              src="assets/petbazzar.png"
+              alt="PetBazzar — multi-vendor pet marketplace screenshot"
+              loading="lazy"
+            />
+            <div class="project-thumb-overlay">
+              <div class="project-thumb-overlay-inner">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                View Project
+              </div>
+            </div>
+            <div class="project-thumb-badges">
+              <span class="project-badge">Marketplace · Startup</span>
+              <span class="project-badge"><span class="sdot"></span>Live</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-eyebrow">PetBazzar · Startup</div>
+            <div class="project-title">PetBazzar Marketplace</div>
+            <p class="project-excerpt">
+              Multi-vendor pet marketplace with vendor onboarding, product listings, secure checkout, and order tracking — concept to live product.
+            </p>
+            <div class="project-card-footer">
+              <div class="project-stack-preview">
+                <span class="stack-chip">React</span>
+                <span class="stack-chip">Django</span>
+                <span class="stack-chip">PostgreSQL</span>
+                <span class="stack-chip">Stripe</span>
+              </div>
+              <span class="project-view-link">
+                Details
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── PROJECT MODAL — Compl AI ────────────────────────────────── -->
+    <div class="proj-modal-overlay" id="modal-compl-ai" role="dialog" aria-modal="true" aria-label="Compl AI project details">
+      <div class="proj-modal">
+
+        <!-- close -->
+        <button class="proj-modal-close" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <!-- full screenshot — 4:3 = 1000×750 -->
+        <div class="proj-modal-img">
+          <img
+            src="assets/compl-ai thumbnail.png"
+            alt="Compl AI platform screenshot"
+          />
+        </div>
+
+        <div class="proj-modal-content">
+
+          <!-- header -->
+          <div class="proj-modal-header">
+            <div>
+              <div class="proj-modal-eyebrow">Legal AI · SaaS Product</div>
+              <div class="proj-modal-title">Compl AI</div>
+              <div class="proj-modal-meta">
+                <span class="proj-modal-meta-item">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  United Kingdom
+                </span>
+                <span class="proj-modal-meta-item">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  Full Stack · AI
+                </span>
+                <span class="proj-modal-meta-item" style="color:#5af07a;">
+                  <span class="sdot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#5af07a;box-shadow:0 0 6px rgba(90,240,122,0.6);animation:blink 2.5s ease-in-out infinite;margin-right:.15rem;"></span>
+                  Live in Production
+                </span>
+              </div>
+            </div>
+            <a href="https://compl-ai.co.uk" target="_blank" class="proj-modal-live-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15,3 21,3 21,9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Visit Live Site
+            </a>
+          </div>
+
+          <!-- client -->
+          <div class="proj-modal-client">
+            <div class="proj-modal-client-icon">⚖️</div>
+            <div>
+              <div class="proj-modal-client-name">CartwrightKing Ltd</div>
+              <div class="proj-modal-client-sub">100–150 employee UK legal consultation firm · SRA &amp; LAA regulated</div>
+            </div>
+          </div>
+
+          <!-- problem / solution -->
+          <div class="proj-modal-section">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Overview
+            </div>
+            <div class="proj-modal-pnl-grid">
+              <div class="proj-modal-pnl">
+                <div class="proj-modal-pnl-head">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  The Problem
+                </div>
+                <p>Legal compliance demands pinpoint accuracy. Generic LLMs hallucinate and miss jurisdiction-specific regulations — a critical liability in a regulated industry. CartwrightKing needed an AI solution delivering reliable, SRA and LAA compliant outputs they could stake their reputation on.</p>
+              </div>
+              <div class="proj-modal-pnl">
+                <div class="proj-modal-pnl-head">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  The Solution
+                </div>
+                <p>Built an agentic RAG architecture using SRA/LAA regulatory datasets as the grounded knowledge base. The LLM retrieves context-specific compliance requirements per query — eliminating hallucinations and delivering audit-ready legal guidance with source citations the firm can verify.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- key highlights -->
+          <div class="proj-modal-section">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Key Highlights
+            </div>
+            <div class="proj-modal-highlights">
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🏛️</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>SRA &amp; LAA Compliance</strong>
+                  Knowledge base built from official SRA and LAA regulatory datasets — outputs are regulation-grounded, not guessed.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🔗</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Source Citations</strong>
+                  Every response includes verifiable citations so solicitors can audit and trust AI-generated guidance.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🤖</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Agentic RAG Pipeline</strong>
+                  Multi-step agentic retrieval that dynamically selects and ranks the most relevant regulatory context per query.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">⚡</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Full Stack Delivery</strong>
+                  End-to-end ownership — Django REST backend, React SaaS frontend, vector DB, and production deployment.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- tech stack -->
+          <div class="proj-modal-section" style="margin-bottom:0">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              Tech Stack
+            </div>
+            <div class="proj-modal-stack">
+              <span class="stack-chip">Agentic RAG</span>
+              <span class="stack-chip">LLM</span>
+              <span class="stack-chip">Vector DB</span>
+              <span class="stack-chip">SRA / LAA Datasets</span>
+              <span class="stack-chip">Django REST</span>
+              <span class="stack-chip">React</span>
+              <span class="stack-chip">PostgreSQL</span>
+              <span class="stack-chip">Source Citations</span>
+              <span class="stack-chip">Python</span>
+              <span class="stack-chip">Docker</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROJECT MODAL — Intranet ERP ────────────────────────────── -->
+    <div class="proj-modal-overlay" id="modal-ck-erp" role="dialog" aria-modal="true" aria-label="CartwrightKing Intranet ERP project details">
+      <div class="proj-modal">
+
+        <button class="proj-modal-close" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <div class="proj-modal-img">
+          <img src="assets/ck-erp.png" alt="CartwrightKing Intranet ERP screenshot" />
+        </div>
+
+        <div class="proj-modal-content">
+
+          <div class="proj-modal-header">
+            <div>
+              <div class="proj-modal-eyebrow">Intranet · ERP · Full Stack</div>
+              <div class="proj-modal-title">Intranet ERP Software</div>
+              <div class="proj-modal-meta">
+                <span class="proj-modal-meta-item">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  United Kingdom
+                </span>
+                <span class="proj-modal-meta-item">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                  100+ Employees · Multi-branch
+                </span>
+                <span class="proj-modal-meta-item" style="color:#5af07a;">
+                  <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#5af07a;box-shadow:0 0 6px rgba(90,240,122,0.6);animation:blink 2.5s ease-in-out infinite;margin-right:.15rem;"></span>
+                  Live in Production
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-modal-client">
+            <div class="proj-modal-client-icon">🏛️</div>
+            <div>
+              <div class="proj-modal-client-name">CartwrightKing Ltd</div>
+              <div class="proj-modal-client-sub">100+ employees · Multiple UK branches · Legal consultation firm</div>
+            </div>
+          </div>
+
+          <!-- intro -->
+          <div class="proj-modal-section">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Overview
+            </div>
+            <div class="proj-modal-pnl-grid">
+              <div class="proj-modal-pnl">
+                <div class="proj-modal-pnl-head">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  The Problem
+                </div>
+                <p>No centralized system existed to manage employees across branches. Onboarding, knowledge sharing, and internal communication were scattered and manual — creating friction at scale across all UK locations.</p>
+              </div>
+              <div class="proj-modal-pnl">
+                <div class="proj-modal-pnl-head">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  The Solution
+                </div>
+                <p>Built a complete intranet with employee and manager modules — staff directory, onboarding workflows, knowledge base, news sharing, and branch-level access controls. One system, all locations, every role covered.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-modal-section">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Key Highlights
+            </div>
+            <div class="proj-modal-highlights">
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">👥</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Staff Directory</strong>
+                  Centralized employee profiles searchable across all branches with role, department, and contact details.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🚀</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Onboarding Workflows</strong>
+                  Automated onboarding checklists and task assignments so new hires hit the ground running from day one.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">📚</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Knowledge Base</strong>
+                  Searchable internal knowledge repository for policies, procedures, and shared resources across all teams.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🔐</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Branch-Level Access Controls</strong>
+                  Role-based permissions per branch — employees and managers see exactly what they need, nothing more.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-modal-section" style="margin-bottom:0">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              Tech Stack
+            </div>
+            <div class="proj-modal-stack">
+              <span class="stack-chip">Django</span>
+              <span class="stack-chip">Python</span>
+              <span class="stack-chip">Next.js</span>
+              <span class="stack-chip">PostgreSQL</span>
+              <span class="stack-chip">Vercel</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PROJECT MODAL — PetBazzar ──────────────────────────────── -->
+    <div class="proj-modal-overlay" id="modal-petbazzar" role="dialog" aria-modal="true" aria-label="PetBazzar project details">
+      <div class="proj-modal">
+
+        <button class="proj-modal-close" aria-label="Close">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <div class="proj-modal-img">
+          <img src="assets/petbazzar.png" alt="PetBazzar marketplace screenshot" />
+        </div>
+
+        <div class="proj-modal-content">
+
+          <div class="proj-modal-header">
+            <div>
+              <div class="proj-modal-eyebrow">Multi-vendor Marketplace · Startup</div>
+              <div class="proj-modal-title">PetBazzar</div>
+              <div class="proj-modal-meta">
+                <span class="proj-modal-meta-item">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  Full Stack · E-commerce
+                </span>
+                <span class="proj-modal-meta-item">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  Concept to Live Product
+                </span>
+                <span class="proj-modal-meta-item" style="color:#5af07a;">
+                  <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#5af07a;box-shadow:0 0 6px rgba(90,240,122,0.6);animation:blink 2.5s ease-in-out infinite;margin-right:.15rem;"></span>
+                  Live · Onboarding Vendors
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-modal-client">
+            <div class="proj-modal-client-icon">🐾</div>
+            <div>
+              <div class="proj-modal-client-name">PetBazzar</div>
+              <div class="proj-modal-client-sub">Startup making pet care accessible and affordable · Multi-vendor marketplace</div>
+            </div>
+          </div>
+
+          <div class="proj-modal-section">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Overview
+            </div>
+            <div class="proj-modal-pnl-grid">
+              <div class="proj-modal-pnl">
+                <div class="proj-modal-pnl-head">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  The Problem
+                </div>
+                <p>Pet owners couldn't easily find trusted vet stores nearby or compare prices. Vet stores lacked online presence to reach customers beyond walk-ins — leaving both sides of the market underserved.</p>
+              </div>
+              <div class="proj-modal-pnl">
+                <div class="proj-modal-pnl-head">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  The Solution
+                </div>
+                <p>Built a multi-vendor marketplace with vendor onboarding, product listings, secure checkout, and order tracking. Designed and shipped the entire platform from concept to live product — currently live and actively onboarding vendors.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-modal-section">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              Key Highlights
+            </div>
+            <div class="proj-modal-highlights">
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🏪</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Multi-vendor Marketplace</strong>
+                  Independent vendor storefronts with onboarding flows, product management, and inventory tracking.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">🛒</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Secure Checkout</strong>
+                  End-to-end purchase flow with payment integration, cart management, and order confirmation.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">📦</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Order Tracking</strong>
+                  Real-time order status updates for buyers and fulfillment dashboards for vendors.
+                </div>
+              </div>
+              <div class="proj-modal-highlight">
+                <div class="proj-modal-highlight-icon">⚡</div>
+                <div class="proj-modal-highlight-text">
+                  <strong>Concept to Live</strong>
+                  Designed and built every layer — from UX to backend API to deployment — as the sole full stack developer.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-modal-section" style="margin-bottom:0">
+            <div class="proj-modal-section-title">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              Tech Stack
+            </div>
+            <div class="proj-modal-stack">
+              <span class="stack-chip">React</span>
+              <span class="stack-chip">Django</span>
+              <span class="stack-chip">Python</span>
+              <span class="stack-chip">PostgreSQL</span>
+              <span class="stack-chip">Stripe</span>
+              <span class="stack-chip">Docker</span>
+              <span class="stack-chip">REST API</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
     <div class="divider"><hr /></div>
 
@@ -1502,6 +2555,47 @@
         card.style.transform = '';
       });
     });
+
+    // ── Project modal ─────────────────────────────────────────────
+    (function () {
+      // open
+      document.querySelectorAll('.project-card[data-modal]').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = 'modal-' + card.dataset.modal;
+          const overlay = document.getElementById(id);
+          if (!overlay) return;
+          overlay.classList.add('open');
+          document.body.classList.add('modal-open');
+          // focus trap — first focusable inside modal
+          const firstFocusable = overlay.querySelector('button, a');
+          if (firstFocusable) firstFocusable.focus();
+        });
+      });
+
+      // close via close button
+      document.querySelectorAll('.proj-modal-close').forEach(btn => {
+        btn.addEventListener('click', closeModal);
+      });
+
+      // close via backdrop click
+      document.querySelectorAll('.proj-modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', e => {
+          if (e.target === overlay) closeModal();
+        });
+      });
+
+      // close via Escape
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+      });
+
+      function closeModal() {
+        document.querySelectorAll('.proj-modal-overlay.open').forEach(o => {
+          o.classList.remove('open');
+        });
+        document.body.classList.remove('modal-open');
+      }
+    })();
 
     // ── Active nav link ───────────────────────────────────────────
     const sections = document.querySelectorAll('section[id]');

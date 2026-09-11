@@ -20,10 +20,6 @@
   systemTheme.addEventListener('change', event => {
     if (savedTheme !== 'dark' && savedTheme !== 'light') setTheme(event.matches);
   });
-  const printButton = document.getElementById('printResume');
-  printButton.hidden = false;
-  printButton.addEventListener('click', () => window.print());
-
   const links = [...document.querySelectorAll('.nav-links a')];
   const sections = links.map(link => document.querySelector(link.getAttribute('href')));
   function updateNavigation() {
